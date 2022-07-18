@@ -1,9 +1,7 @@
-package pokerhands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Deck {
@@ -26,18 +24,6 @@ public class Deck {
         this.cards = cards;
     }
 
-    public int getDECK_LIMIT() {
-        return DECK_LIMIT;
-    }
-
-    public void shuffleDeck() {
-        Collections.shuffle(cards);
-    }
-
-    public void sort(Comparator<Card> sort) {
-        cards.sort(sort);
-    }
-
     public Card removeCard(int index) {
         if (cards.size() - 1 < index) {
             throw new IndexOutOfBoundsException();
@@ -58,12 +44,12 @@ public class Deck {
         return removedCards;
     }
 
-    public String CardsToString() {
-        String cardsValues = "";
-        for (Card card : cards) {
-            cardsValues += card.toString() + ",";
-        }
-        return cardsValues;
+    public void shuffleDeck() {
+        Collections.shuffle(cards);
+    }
+
+    public int getDECK_LIMIT() {
+        return DECK_LIMIT;
     }
 
     public List<Card> getFullBundle() {
@@ -80,6 +66,11 @@ public class Deck {
 
     public String toString() {
         return cards.toString();
+    }
+
+    public void setCards(List<Card> cards) {
+
+        this.cards = cards;
     }
 
 }

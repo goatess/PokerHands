@@ -1,16 +1,17 @@
-package pokerhands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class Hand {
     private final int HAND_LIMIT = 5;
     private List<Card> cards = new ArrayList<>(HAND_LIMIT);
     private int handNumber;
+    private int value;
 
     public Hand(List<Card> cards) {
-          for (int i = 0; i < HAND_LIMIT; i++) {
+        for (int i = 0; i < HAND_LIMIT; i++) {
             Card card = cards.get(i);
             addCard(card);
         }
@@ -42,12 +43,27 @@ public class Hand {
         return removedCards;
     }
 
-    public String CardsToString() {
-        String cardsValues = "";
-        for (Card card : cards) {
-            cardsValues += card.toString() + ",";
+    public void sortCards() {
+    final Comparator<Card> cardComparator = new CardComparator();
+    for (int i = 0; i < cards.size() - 1; i++) {
+        for (int k = i + 1; k > 0; k--) {
+            final Card card1 = getCards().get(k);
+            final Card card2 = getCards().get(k - 1);
+            if(cardComparator.compare(card1, card2) < 0) {
+
+                cards.set(k, card2);
+                cards.set(k-1, card1);
+
+            } else {
+                break;
+            }
         }
-        return cardsValues;
+    }
+} 
+
+
+    public int getValue() {
+        return value;
     }
 
     public int getHAND_LIMIT() {
@@ -69,13 +85,4 @@ public class Hand {
     public String toString() {
         return cards.toString();
     }
-
-    /*
-     * public Card drawRandomCard(List<Card> cards) {
-     * int index = (int) (Math.random() * cards.size());
-     * Card card = cards.get(index);
-     * cards.remove(index);
-     * return card;
-     * }
-     */
 }

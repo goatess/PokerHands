@@ -1,5 +1,3 @@
-package pokerhands;
-
 public enum Rank {
     TWO('2', 2),
     THREE('3', 3),
@@ -15,25 +13,24 @@ public enum Rank {
     KING('K', 10),
     ACE('A', 11);
 
-    private int rankPoints;
+    private int points;
     private char symbol;
 
     private Rank(char symbol, int points) {
         this.symbol = symbol;
-        this.rankPoints = points;
+        this.points = points;
     }
 
+    
     public int getRankPoints() {
-        return rankPoints;
+        return points;
     }
 
     public char getRankSymbol() {
         return symbol;
     }
 
-    @Override
     public String toString() {
         return String.valueOf(getRankSymbol());
     }
-
 }

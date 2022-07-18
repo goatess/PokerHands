@@ -1,16 +1,18 @@
-package pokerhands;
-
 public class Player {
     private Hand hand;
     private String name;
-
+    
     Player() {
         hand = new Hand();
-
     }
 
     Player(Hand hand) {
         this.hand = hand;
+    }
+
+    Player(String name) {
+        this.hand = new Hand();
+        this.name = name;
     }
 
     Player(Hand hand, String name) {
@@ -32,5 +34,9 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+    @Override
+    public String toString() {
+        return name + ": " + hand.getCards().toString();
     }
 }
