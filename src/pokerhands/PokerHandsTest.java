@@ -121,11 +121,11 @@ public class PokerHandsTest {
         Deck deck = new Deck();
 
         // act
-         deck.shuffleDeck();
+        deck.shuffleDeck();
         String cardsShuffled = deck.toString();
 
         // assert
-         assertTrue(CARDS, cardsShuffled != CARDS);
+        assertTrue(CARDS, cardsShuffled != CARDS);
     }
 
     @Test
@@ -176,6 +176,7 @@ public class PokerHandsTest {
 
         // assert
         assertNotEquals(player1Hand, player2Hand);
+
     }
 }
 /*

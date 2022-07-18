@@ -9,6 +9,12 @@ public class Dealer {
     private List<Player> players;
     private int numberOfPlayers = 2;
 
+    public static final int ONE_PAIR = 7;
+    public static final int TWO_PAIR = 9;
+    public static final int THREE_OF_A_KIND = 11;
+    public static final int FULL_HOUSE = 13;
+    public static final int FOUR_OF_A_KIND = 17;
+
     public Dealer() {
     }
 
