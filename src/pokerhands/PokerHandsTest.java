@@ -48,7 +48,7 @@ public class PokerHandsTest {
     public void there_are_only_5_cards_in_hand() {
         Deck cards = new Deck();
         Hand hand = new Hand(cards.getCards());
-        final int CARDS_IN_HAND = hand.getHAND_LIMIT();
+        final int CARDS_IN_HAND = hand.getCARDS_LIMIT();
         int actualSize = hand.getCards().size();
         assertEquals(CARDS_IN_HAND, actualSize);
     }
@@ -117,7 +117,7 @@ public class PokerHandsTest {
         deck.shuffleDeck();
         int[] indices = { 0, 0, 0, 0, 0 };
         Player player1 = new Player(new Hand(deck.removeCards(indices)), "Black");
-        Player player2 = new Player(new Hand(deck.removeCards(indices)), "White");
+        Player player2 = new Player(new Hand(deck.removeCards(indices)), "Black");
         String player1Hand = player1.toString();
         String player2Hand = player2.toString();
         assertNotEquals(player1Hand, player2Hand);
@@ -129,7 +129,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         HandScore handScore; 
         Player player = new Player(new Hand(), "Black");
-        List<Card> cards = deck.getCards(51, 47, 43, 39, 35);
+        List<Card> cards = deck.getFirstCards(51, 47, 43, 39, 35);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.ROYAL_FLUSH, handScore.getScore());
@@ -142,7 +142,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(0, 8, 12, 20, 28);
+        List<Card> cards = deck.getFirstCards(0, 8, 12, 20, 28);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.FLUSH, handScore.getScore());
@@ -155,7 +155,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(0, 4, 8, 12, 16);
+        List<Card> cards = deck.getFirstCards(0, 4, 8, 12, 16);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.STRAIGHT_FLUSH, handScore.getScore());
@@ -168,7 +168,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(0, 5, 10, 15, 19);
+        List<Card> cards = deck.getFirstCards(0, 5, 10, 15, 19);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.STRAIGHT, handScore.getScore());
@@ -181,7 +181,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(32, 36, 41, 46, 51);
+        List<Card> cards = deck.getFirstCards(32, 36, 41, 46, 51);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.ROYAL_STRAIGHT, handScore.getScore());
@@ -195,7 +195,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(0, 11, 22, 33, 51);
+        List<Card> cards = deck.getFirstCards(0, 11, 22, 33, 51);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.HIGH_CARD, handScore.getScore());
@@ -209,7 +209,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(0, 1, 10, 15, 19);
+        List<Card> cards = deck.getFirstCards(0, 1, 10, 15, 19);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.ONE_PAIR, handScore.getScore());
@@ -222,7 +222,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(0, 1, 10, 18, 19);
+        List<Card> cards = deck.getFirstCards(0, 1, 10, 18, 19);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.TWO_PAIR, handScore.getScore());
@@ -235,7 +235,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(0, 1, 2, 15, 19);
+        List<Card> cards = deck.getFirstCards(0, 1, 2, 15, 19);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.THREE_OF_A_KIND, handScore.getScore());
@@ -248,7 +248,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         Player player= new Player(new Hand(), "Black");
         HandScore handScore;
-        List<Card> cards = deck.getCards(51, 50, 49, 48, 47);
+        List<Card> cards = deck.getFirstCards(51, 50, 49, 48, 47);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.FOUR_OF_A_KIND, handScore.getScore());
@@ -261,7 +261,7 @@ public class PokerHandsTest {
         Deck deck = new Deck();
         HandScore handScore;
         Player player= new Player(new Hand(), "Black");
-        List<Card> cards = deck.getCards(51, 50, 49, 47, 46);
+        List<Card> cards = deck.getFirstCards(51, 50, 49, 47, 46);
         player.getHand().addCards(cards);
         handScore = new HandScore(player.getHand());
         assertEquals(PokerHand.FULL_HOUSE, handScore.getScore());
@@ -270,13 +270,14 @@ public class PokerHandsTest {
 
     @Test
     public void rank_hand_and_get_winning_player() {
-        Dealer game = new Dealer();
-        game.createPlayer("Winner");
-        game.createPlayer("Loser");
-        final Player WINNER = game.getPlayers().get(0);
-        Player actualWinner;
-        game.rankHands();
-        actualWinner = game.getHandWinner();
+        Dealer dealer = new Dealer();
+        dealer.createPlayer("Winner");
+        dealer.createPlayer("Loser");
+        final Player WINNER = dealer.getPlayers().get(0);
+        Player actualWinner = dealer.getPlayers().get(1);
+        dealer.dealCardsToPlayers();
+        dealer.rankHands();
+        actualWinner = dealer.getHandWinner();
         assertEquals(WINNER, actualWinner);
     }
 }

@@ -4,29 +4,29 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Hand {
-    private final int HAND_LIMIT = 5;
-    private List<Card> cards = new ArrayList<>(HAND_LIMIT);
-    private int handNumber;
+    private final int CARDS_LIMIT = 5;
+    private List<Card> cards = new ArrayList<>(CARDS_LIMIT);
+    private int cardsNumber;
 
     public Hand(List<Card> cards) {
-        for (int i = 0; i < HAND_LIMIT; i++) {
+        for (int i = 0; i < CARDS_LIMIT; i++) {
             Card card = cards.get(i);
             addCard(card);
         }
-        this.handNumber = this.cards.size();
+        this.cardsNumber = this.cards.size();
     }
 
     public Hand() {
     }
 
     public void addCard(Card card) {
-        if (cards.size() < HAND_LIMIT) {
+        if (cards.size() < CARDS_LIMIT) {
             cards.add(card);
         }
     }
 
     public void addCard(int index, Card card) {
-        if (cards.size() < HAND_LIMIT) {
+        if (cards.size() < CARDS_LIMIT) {
             cards.add(index, card);
         }
     }
@@ -35,17 +35,17 @@ public class Hand {
         this.cards.addAll(cards);
     }
 
-    public List<Card> removeCards(int[] indices) {
-        List<Card> removedCards = new ArrayList<>();
-        Arrays.stream(indices).forEach(index -> removedCards.add(cards.remove(index)));
-        return removedCards;
+    public List<Card> removeCards(int[] played) {
+        List<Card> discarded = new ArrayList<>();
+        Arrays.stream(played).forEach(card -> discarded.add(cards.remove(card)));
+        return discarded;
     }
 
-    public int getHAND_LIMIT() {
-        return HAND_LIMIT;
+    public int getCARDS_LIMIT() {
+        return CARDS_LIMIT;
     }
 
-    public void createHand(List<Card> cards) {
+    public void setHand(int c1, int c2, int c3, int c4, int c5) {
         this.cards.addAll(cards);
     }
 
@@ -54,7 +54,7 @@ public class Hand {
     }
 
     public int getHandNumber() {
-        return handNumber;
+        return cardsNumber;
     }
 
     public String toString() {

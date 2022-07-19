@@ -23,26 +23,8 @@ public class Deck {
 
     public Deck(List<Card> cards) {
         this.cards = cards;
-    }
-
-    public Card removeCard(int index) {
-        if (cards.size() - 1 < index) {
-            throw new IndexOutOfBoundsException();
-        }
-        return cards.remove(index);
-    }
-
-    public Card removeCard() {
-        if (cards.size() < 1) {
-            throw new IllegalStateException("Deck is empty");
-        }
-        return cards.remove(0);
-    }
-
-    public List<Card> removeCards(int[] indices) {
-        List<Card> removedCards = new ArrayList<>();
-        Arrays.stream(indices).forEach(index -> removedCards.add(cards.remove(index)));
-        return removedCards;
+        this.cards = FULL_CARDS;
+        cardsNumber = cards.size();
     }
 
     public void shuffleDeck() {
@@ -51,6 +33,32 @@ public class Deck {
 
     public void collectCards() {
         this.cards = FULL_CARDS;
+    }
+
+    public List<Card> removeCards(int[] hitted) {
+        List<Card> drawn = new ArrayList<>();
+        Arrays.stream(hitted).forEach(card -> drawn.add(removeCard(card)));
+        return drawn;
+    }
+
+    public Card removeCard(int index) {
+        if (cards.size() - 1 < index) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (cards.size() < 1) {
+            throw new IllegalStateException("Deck is empty");
+        }
+        return cards.remove(index);
+    }
+
+    public List<Card> getFirstCards(int c1, int c2, int c3, int c4, int c5) {
+        List<Card> cardsTest = new ArrayList<>();
+        cardsTest.add(cards.get(c1));
+        cardsTest.add(cards.get(c2));
+        cardsTest.add(cards.get(c3));
+        cardsTest.add(cards.get(c4));
+        cardsTest.add(cards.get(c5));
+        return cardsTest;
     }
 
     public void sortCards() {
@@ -86,19 +94,5 @@ public class Deck {
 
     public String toString() {
         return cards.toString();
-    }
-
-    public void setCards(List<Card> cards) {
-
-        this.cards = cards;
-    }
-    public List<Card> getCards(int c1, int c2, int c3, int c4, int c5){
-        List<Card> cardsTest = new ArrayList<>();
-        cardsTest.add(cards.get(c1));
-        cardsTest.add(cards.get(c2));
-        cardsTest.add(cards.get(c3));
-        cardsTest.add(cards.get(c4));
-        cardsTest.add(cards.get(c5));
-        return cardsTest;
     }
 }
