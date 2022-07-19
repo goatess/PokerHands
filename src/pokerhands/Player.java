@@ -1,7 +1,7 @@
 public class Player {
     private Hand hand;
     private String name;
-    
+
     Player() {
         hand = new Hand();
     }
@@ -35,6 +35,7 @@ public class Player {
     public String getName() {
         return name;
     }
+
     @Override
     public String toString() {
         return name + ": " + hand.getCards().toString();

@@ -7,7 +7,6 @@ public class Hand {
     private final int HAND_LIMIT = 5;
     private List<Card> cards = new ArrayList<>(HAND_LIMIT);
     private int handNumber;
-    private int value;
 
     public Hand(List<Card> cards) {
         for (int i = 0; i < HAND_LIMIT; i++) {
@@ -42,10 +41,6 @@ public class Hand {
         return removedCards;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public int getHAND_LIMIT() {
         return HAND_LIMIT;
     }
@@ -65,5 +60,4 @@ public class Hand {
     public String toString() {
         return cards.toString();
     }
-
 }

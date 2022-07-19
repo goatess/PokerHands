@@ -1,27 +1,41 @@
 
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Dealer {
 
     private Deck deck;
-    private List<Player> players;
-    private int numberOfPlayers = 2;
+    private List<Player> players = new ArrayList<>();
 
-    public static final int ONE_PAIR = 7;
-    public static final int TWO_PAIR = 9;
-    public static final int THREE_OF_A_KIND = 11;
-    public static final int FULL_HOUSE = 13;
-    public static final int FOUR_OF_A_KIND = 17;
+    private int numberOfPlayers = 2;
+    private HandScore handScore;
+    private Player handWinner;
 
     public Dealer() {
+        this.deck = new Deck();
+        players = new ArrayList<>();
     }
 
-    void createGame(int numberOfPlayers) {
-        deck = new Deck();
-        deck.shuffleDeck(); 
+    public Dealer(int numberOfPlayers) {
+        this.deck = new Deck();
+        players = new ArrayList<>();
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+    void setUp(int numberOfPlayers) {
+        deck.shuffleDeck();
         createPlayers();
+        rankHands();
+        gameLoop();
+    }
+
+    void gameLoop() {
+        deck.collectCards();
+        deck.shuffleDeck();
+        dealCardsToPlayers();
+        rankHands();
     }
 
     public void createPlayers() {
@@ -52,7 +66,45 @@ public class Dealer {
         players.forEach(player -> dealCardsToPlayer(player));
     }
 
-    void compareHands(){
-        players.forEach(player -> player.getHand().getValue());
+    void rankHands() {
+        List<Integer> scores = new ArrayList<>();
+        List<Integer> highCards = new ArrayList<>();
+        for (Player player : players) {
+            handScore = new HandScore(player.getHand());
+            scores.add(handScore.getScore().getScoreValue());
+            highCards.add(handScore.getHighCard());
+        }
+        compareHands(scores, highCards);
+    }
+
+    Player compareHands(List<Integer> scores, List<Integer> highCards) {
+        int maxRank = Collections.max(scores);
+        int minRank = Collections.min(scores);
+        int maxCard = Collections.max(highCards);
+        handWinner = players.get(scores.indexOf(maxRank));
+        if (minRank == maxRank) {
+            handWinner = players.get(scores.indexOf(maxCard));
+        }
+        return handWinner;
+    }
+
+    public Player getHandWinner() {
+        return handWinner;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public String winnerToString() {
+        return handWinner.toString();
     }
 }

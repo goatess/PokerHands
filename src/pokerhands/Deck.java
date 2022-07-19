@@ -49,6 +49,10 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
+    public void collectCards() {
+        this.cards = FULL_CARDS;
+    }
+
     public void sortCards() {
         final Comparator<Card> cardComparator = new CardComparator();
         for (int i = 0; i < cards.size() - 1; i++) {
@@ -88,5 +92,13 @@ public class Deck {
 
         this.cards = cards;
     }
-
+    public List<Card> getCards(int c1, int c2, int c3, int c4, int c5){
+        List<Card> cardsTest = new ArrayList<>();
+        cardsTest.add(cards.get(c1));
+        cardsTest.add(cards.get(c2));
+        cardsTest.add(cards.get(c3));
+        cardsTest.add(cards.get(c4));
+        cardsTest.add(cards.get(c5));
+        return cardsTest;
+    }
 }

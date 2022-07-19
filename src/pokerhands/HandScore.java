@@ -2,18 +2,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HandScore {
+
     public static final int ONE_PAIR = 2;
     public static final int TWO_PAIR = 4;
     public static final int THREE_OF_A_KIND = 3;
     public static final int FULL_HOUSE = 5;
     public static final int FOUR_OF_A_KIND = 6;
-
     private PokerHand score;
     private int highCardPosition;
     private List<Card> cards;
     private int[] rankFrequency = new int[15];
     private int[] suitFrequency = new int[4];
-    private boolean isRoyal;
 
     public HandScore(Hand hand) {
         this.cards = hand.getCards();
@@ -35,15 +34,14 @@ public class HandScore {
     }
 
     private void scoreHand() {
+        int[] sorted = sortRankArray();
+        score = PokerHand.HIGH_CARD;
 
-        if (isStraight()) {
+        if (isStraight(sorted)) {
             if (isFlush()) {
-                if (isRoyal) {
-                    score = PokerHand.ROYAL_FLUSH;
-                } else
-                    score = PokerHand.STRAIGHT_FLUSH;
+                score = isRoyal(sorted) ? PokerHand.ROYAL_FLUSH : PokerHand.STRAIGHT_FLUSH;
             } else {
-                score = /* isRoyal ? PokerHand.ROYAL_STRAIGHT : */ PokerHand.STRAIGHT;
+                score = isRoyal(sorted) ? PokerHand.ROYAL_STRAIGHT : PokerHand.STRAIGHT;
             }
         } else {
             if (isFlush())
@@ -91,33 +89,28 @@ public class HandScore {
 
     private boolean isFlush() {
         for (int each : suitFrequency) {
-            if (each == 5)
+            if (each == cards.size())
                 return true;
         }
         return false;
     }
 
-    private boolean isStraight() {
-        int[] sorted = sortRankArray();
+    private boolean isStraight(int[] sorted) {
         boolean isStraight = true;
-        if (isRoyal(sorted)) {
-            isRoyal = true;
-            isStraight = true;
-        } else {
-            for (int i = 1; i < 5; i++) {
-                if (sorted[i] - sorted[i - 1] > 1)
-                    isStraight = false;
-            }
+        for (int i = 1; i < cards.size(); i++) {
+            if (sorted[i] - sorted[i-1] > 1)
+                isStraight = false;
         }
         return isStraight;
     }
 
     private boolean isRoyal(int[] sorted) {
-        if (sorted[0] == 10 && sorted[1] == 11 &&
-                sorted[2] == 12 && sorted[3] == 13 && sorted[4] == 14) {
-            return true;
-        } else
-            return false;
+        for (int i : sorted) {
+            if (i == 14) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int[] sortRankArray() {
