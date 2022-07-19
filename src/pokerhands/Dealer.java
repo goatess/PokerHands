@@ -22,9 +22,10 @@ public class Dealer {
         this.deck = new Deck();
         players = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayers;
+        setUpGame(numberOfPlayers);
     }
 
-    void setUp(int numberOfPlayers) {
+    void setUpGame(int numberOfPlayers) {
         deck.shuffleDeck();
         createPlayers();
         rankHands();
