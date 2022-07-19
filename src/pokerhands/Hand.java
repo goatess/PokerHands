@@ -1,7 +1,6 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public class Hand {
@@ -43,48 +42,6 @@ public class Hand {
         return removedCards;
     }
 
-    public void sortCards() {
-    final Comparator<Card> cardComparator = new CardComparator();
-    for (int i = 0; i < cards.size() - 1; i++) {
-        for (int k = i + 1; k > 0; k--) {
-            final Card card1 = getCards().get(k);
-            final Card card2 = getCards().get(k - 1);
-            if(cardComparator.compare(card1, card2) < 0) {
-
-                cards.set(k, card2);
-                cards.set(k-1, card1);
-
-            } else if (cardComparator.compare(card1, card2) == 0){
-                groupCards();
-                break;
-            } else break;
-        }
-    }
-} 
-public void sortCardsS() {
-    final Comparator<Card> cardComparator = new CardComparator();
-    for (int i = 0; i < cards.size() - 1; i++) {
-        for (int k = i + 1; k > 0; k--) {
-            final Card card1 = getCards().get(k);
-            final Card card2 = getCards().get(k - 1);
-            if(cardComparator.compare(card1, card2) < 0) {
-
-                cards.set(k, card2);
-                cards.set(k-1, card1);
-
-            } else if (cardComparator.compare(card1, card2) == 0){
-                groupCards();
-                break;
-            } else break;
-        }
-    }
-} 
- 
-    private void groupCards() {
-        int duplicateRank = 0;
-        duplicateRank++;
-    }
-
     public int getValue() {
         return value;
     }
@@ -108,4 +65,5 @@ public void sortCardsS() {
     public String toString() {
         return cards.toString();
     }
+
 }

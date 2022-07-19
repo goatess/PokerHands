@@ -178,6 +178,240 @@ public class PokerHandsTest {
         assertNotEquals(player1Hand, player2Hand);
 
     }
+
+    @Test
+    public void get_royal_flush_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(51));
+        hand.addCard(deck.getCards().get(47));
+        hand.addCard(deck.getCards().get(43));
+        hand.addCard(deck.getCards().get(39));
+        hand.addCard(deck.getCards().get(35));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [AS, KS, QS, JS, TS]";
+
+        // assert
+        assertEquals(PokerHand.ROYAL_FLUSH, score);
+        assertEquals(HAND, player1Hand);
+    }
+    @Test
+    public void get_flush_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(0));
+        hand.addCard(deck.getCards().get(8));
+        hand.addCard(deck.getCards().get(12));
+        hand.addCard(deck.getCards().get(20));
+        hand.addCard(deck.getCards().get(28));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [2C, 4C, 5C, 7C, 9C]";
+        
+        // assert
+        assertEquals(PokerHand.FLUSH, score);
+        assertEquals(HAND, player1Hand);
+    }
+    @Test
+    public void get_straight_flush_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(0));
+        hand.addCard(deck.getCards().get(4));
+        hand.addCard(deck.getCards().get(8));
+        hand.addCard(deck.getCards().get(12));
+        hand.addCard(deck.getCards().get(16));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [2C, 3C, 4C, 5C, 6C]";
+        
+        // assert
+        assertEquals(PokerHand.STRAIGHT_FLUSH, score);
+        assertEquals(HAND, player1Hand);
+    }
+
+    @Test
+    public void get_straight_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(0));
+        hand.addCard(deck.getCards().get(5));
+        hand.addCard(deck.getCards().get(10));
+        hand.addCard(deck.getCards().get(15));
+        hand.addCard(deck.getCards().get(19));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [2C, 3D, 4H, 5S, 6S]";
+        
+        // assert
+        assertEquals(PokerHand.STRAIGHT, score);
+        assertEquals(HAND, player1Hand);
+    }
+    @Test
+    public void get_HIGH_CARD_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(0));
+        hand.addCard(deck.getCards().get(11));
+        hand.addCard(deck.getCards().get(22));
+        hand.addCard(deck.getCards().get(33));
+        hand.addCard(deck.getCards().get(51));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [2C, 4S, 7H, TD, AS]";
+        int highCard = handScore.getHighCard();
+        
+        // assert
+        assertEquals(PokerHand.HIGH_CARD, score);
+        assertEquals(HAND, player1Hand);
+        assertEquals(4, highCard);
+    }
+    @Test
+    public void get_ONE_PAIR_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(0));
+        hand.addCard(deck.getCards().get(1));
+        hand.addCard(deck.getCards().get(10));
+        hand.addCard(deck.getCards().get(15));
+        hand.addCard(deck.getCards().get(19));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [2C, 2D, 4H, 5S, 6S]";
+        
+        // assert
+        assertEquals(PokerHand.ONE_PAIR, score);
+        assertEquals(HAND, player1Hand);
+    }
+    @Test
+    public void get_TWO_PAIR_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(0));
+        hand.addCard(deck.getCards().get(1));
+        hand.addCard(deck.getCards().get(10));
+        hand.addCard(deck.getCards().get(18));
+        hand.addCard(deck.getCards().get(19));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [2C, 2D, 4H, 6H, 6S]";
+        
+        // assert
+        assertEquals(PokerHand.TWO_PAIR, score);
+        assertEquals(HAND, player1Hand);
+    }
+    @Test
+    public void get_three_of_a_kind_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(0));
+        hand.addCard(deck.getCards().get(1));
+        hand.addCard(deck.getCards().get(2));
+        hand.addCard(deck.getCards().get(15));
+        hand.addCard(deck.getCards().get(19));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [2C, 2D, 2H, 5S, 6S]";
+        
+        // assert
+        assertEquals(PokerHand.THREE_OF_A_KIND, score);
+        assertEquals(HAND, player1Hand);
+    }
+    @Test
+    public void get_four_of_a_kind_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(51));
+        hand.addCard(deck.getCards().get(50));
+        hand.addCard(deck.getCards().get(49));
+        hand.addCard(deck.getCards().get(48));
+        hand.addCard(deck.getCards().get(47));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [AS, AH, AD, AC, KS]";
+        
+        // assert
+        assertEquals(PokerHand.FOUR_OF_A_KIND, score);
+        assertEquals(HAND, player1Hand);
+    }
+    @Test
+    public void get_full_house_score() {
+        // arrange
+        Deck deck = new Deck();
+        Player player1 = new Player(new Hand(), "Black");
+        
+        // act
+        Hand hand = player1.getHand();
+        hand.addCard(deck.getCards().get(51));
+        hand.addCard(deck.getCards().get(50));
+        hand.addCard(deck.getCards().get(49));
+        hand.addCard(deck.getCards().get(47));
+        hand.addCard(deck.getCards().get(46));
+        HandScore handScore = new HandScore(hand);
+        PokerHand score = handScore.getScore();
+       
+        String player1Hand = player1.toString();
+        final String HAND = "Black: [AS, AH, AD, KS, KH]";
+        
+        // assert
+        assertEquals(PokerHand.FULL_HOUSE, score);
+        assertEquals(HAND, player1Hand);
+    }
 }
 /*
  * High Card: Hands which do not fit any higher category are ranked by the value

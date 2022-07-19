@@ -1,7 +1,7 @@
 
 
 public enum Suit {
-    C("CLUBS",1), D("DIAMONDS",2), H("HEARTS",3), S("SPADES",4);
+    C("CLUBS",0), D("DIAMONDS",1), H("HEARTS",2), S("SPADES",3);
 
     private String suitName;
     private int code;

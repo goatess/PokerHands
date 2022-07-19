@@ -11,9 +11,15 @@ public class Card {
     public Rank getRank() {
         return rank;
     }
+    public int getRankValue(){
+        return rank.getValue();
+    }
 
     public Suit getSuit() {
         return suit;
+    }
+    public int getSuitValue(){
+        return suit.getCode();
     }
 
     public String toString() {
