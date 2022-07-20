@@ -43,8 +43,11 @@ public class Hand {
         return cardsNumber;
     }
 
+    String cardsInHand;
     @Override
     public String toString() {
-        return cards.toString();
+        cardsInHand = "";
+        cards.forEach(card -> cardsInHand += card + " ");
+        return cardsInHand;
     }
 }
