@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Hand {
     private final int CARDS_LIMIT = 5;
-    private List<Card> cards = new ArrayList<>(CARDS_LIMIT);
+    private List<Card> cards = new ArrayList<>();
     private int cardsNumber;
 
     Hand(List<Card> cards) {
