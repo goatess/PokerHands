@@ -12,17 +12,26 @@ public enum Ranking {
     ROYAL_FLUSH("Royal Flush",10);
 
     private String name;
-    private int score;
+    private int value;
 
     Ranking(String name, int score) {
         this.name = name;
-        this.score = score;
+        this.value = score;
     }
+    Ranking(int value){
+        this.value = value;
 
+    }
     public String getName() {
         return name;
     }
-    public int getScore() {
-        return score;
+    public int getValue() {
+        return value;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return String.valueOf(name);
     }
 }

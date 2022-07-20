@@ -27,25 +27,25 @@ public class Deck {
         this.cards = FULL_CARDS;
     }
 
-    public List<Card> drawCards() {
-        List<Card> drawn = new ArrayList<>();
-        for (int c = 0; c < 5; c++) {
-           drawn.add(drawCard());    
-        }
-        return drawn;
-    }
-
     private Card drawCard() {
         if (cards.size() - 1 < 0) {
             throw new IndexOutOfBoundsException();
         }
         if (cards.size() < 1) {
             throw new IllegalStateException("Deck is empty");
-        } 
+        }
         return cards.remove(0);
     }
 
-    public List<Card> getCards(int c1, int c2, int c3, int c4, int c5) {
+    public List<Card> drawCards() {
+        List<Card> drawn = new ArrayList<>();
+        for (int c = 0; c < 5; c++) {
+            drawn.add(drawCard());
+        }
+        return drawn;
+    }
+
+    public List<Card> drawCards(int c1, int c2, int c3, int c4, int c5) {
         List<Card> cardsTest = new ArrayList<>();
         cardsTest.add(cards.get(c1));
         cardsTest.add(cards.get(c2));

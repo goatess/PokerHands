@@ -27,7 +27,7 @@ public class Hand {
         this.cards.addAll(cards);
     }
 
-    public void discard() {
+    public void discardHand() {
         cards.clear();
     }
 

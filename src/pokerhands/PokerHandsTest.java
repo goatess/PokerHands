@@ -2,6 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -121,159 +122,164 @@ public class PokerHandsTest {
 
     @Test
     public void get_royal_flush_score() {
-        final String HAND = "Black: [AS, KS, QS, JS, TS]";
+        final String HAND = "Black: [AS, KS, QS, JS, TS] Royal Flush";
         Deck deck = new Deck();
         Score handScore; 
         Player player = new Player(new Hand(), "Black");
-        List<Card> cards = deck.getCards(51, 47, 43, 39, 35);
+        List<Card> cards = deck.drawCards(51, 47, 43, 39, 35);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.ROYAL_FLUSH, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_flush_score() {
-        final String HAND = "Black: [2C, 4C, 5C, 7C, 9C]";
+        final String HAND = "Black: [2C, 4C, 5C, 7C, 9C] Flush";
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(0, 8, 12, 20, 28);
+        List<Card> cards = deck.drawCards(0, 8, 12, 20, 28);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.FLUSH, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_straight_flush_score() {
-        final String HAND = "Black: [2C, 3C, 4C, 5C, 6C]";
+        final String HAND = "Black: [2C, 3C, 4C, 5C, 6C] Straight Flush";
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(0, 4, 8, 12, 16);
+        List<Card> cards = deck.drawCards(0, 4, 8, 12, 16);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.STRAIGHT_FLUSH, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_straight_score() {
-        final String HAND = "Black: [2C, 3D, 4H, 5S, 6S]";
+        final String HAND = "Black: [2C, 3D, 4H, 5S, 6S] Straight";
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(0, 5, 10, 15, 19);
+        List<Card> cards = deck.drawCards(0, 5, 10, 15, 19);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.STRAIGHT, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_royal_straight_score() {
-        final String HAND = "Black: [TC, JC, QD, KH, AS]";
+        final String HAND = "Black: [TC, JC, QD, KH, AS] Royal Straight";
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(32, 36, 41, 46, 51);
+        List<Card> cards = deck.drawCards(32, 36, 41, 46, 51);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.ROYAL_STRAIGHT, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_HIGH_CARD_score() {
-        final String HAND = "Black: [2C, 4S, 7H, TD, AS]";
+        final String HAND = "Black: [2C, 4S, 7H, TD, AS] High Card";
         final int HIGH_CARD_POINTS = 11;
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(0, 11, 22, 33, 51);
+        List<Card> cards = deck.drawCards(0, 11, 22, 33, 51);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.HIGH_CARD, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
         assertEquals(HIGH_CARD_POINTS, handScore.getHighest());
     }
 
     @Test
     public void get_ONE_PAIR_score() {
-        final String HAND = "Black: [2C, 2D, 4H, 5S, 6S]";
+        final String HAND = "Black: [2C, 2D, 4H, 5S, 6S] One Pair";
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(0, 1, 10, 15, 19);
+        List<Card> cards = deck.drawCards(0, 1, 10, 15, 19);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.ONE_PAIR, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_TWO_PAIR_score() {
-        final String HAND = "Black: [2C, 2D, 4H, 6H, 6S]";
+        final String HAND = "Black: [2C, 2D, 4H, 6H, 6S] Two Pairs";
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(0, 1, 10, 18, 19);
+        List<Card> cards = deck.drawCards(0, 1, 10, 18, 19);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.TWO_PAIR, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_three_of_a_kind_score() {
-        final String HAND = "Black: [2C, 2D, 2H, 5S, 6S]";
+        final String HAND = "Black: [2C, 2D, 2H, 5S, 6S] Three of a Kind";
         Deck deck = new Deck();
         Player player = new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(0, 1, 2, 15, 19);
+        List<Card> cards = deck.drawCards(0, 1, 2, 15, 19);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.THREE_OF_A_KIND, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_four_of_a_kind_score() {
-        final String HAND = "Black: [AS, AH, AD, AC, KS]";
+        final String HAND = "Black: [AS, AH, AD, AC, KS] Four of a Kind";
         Deck deck = new Deck();
         Player player= new Player(new Hand(), "Black");
         Score handScore;
-        List<Card> cards = deck.getCards(51, 50, 49, 48, 47);
+        List<Card> cards = deck.drawCards(51, 50, 49, 48, 47);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.FOUR_OF_A_KIND, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void get_full_house_score() {
-        final String HAND = "Black: [AS, AH, AD, KS, KH]";
+        final String HAND = "Black: [AS, AH, AD, KS, KH] Full House";
         Deck deck = new Deck();
         Score handScore;
         Player player= new Player(new Hand(), "Black");
-        List<Card> cards = deck.getCards(51, 50, 49, 47, 46);
+        List<Card> cards = deck.drawCards(51, 50, 49, 47, 46);
         player.getHand().addCards(cards);
-        handScore = new Score(player.getHand());
+        handScore = new Score(player);
         assertEquals(Ranking.FULL_HOUSE, handScore.getRanking());
-        assertEquals(HAND, player.toString());
+        assertEquals(HAND, handScore.toString());
     }
 
     @Test
     public void rank_hand_and_get_winning_player() {
-        PokerHands dealer = new PokerHands();
-        dealer.getPlayers().add(new Player(new Hand(), "Winner"));
-        dealer.getPlayers().add(new Player(new Hand(), "Loser"));
-        final Player WINNER = dealer.getPlayers().get(0);
-        Player actualWinner = dealer.getPlayers().get(1);
-        dealer.dealHands();
-        dealer.rankHands();
-        actualWinner = dealer.getWinner();
+        final String WINNER = "Winner: [2C, 4C, 5C, 7C, 9C] Flush";
+        String actualWinner = "Loser: [5D, 2S, 7C, TS, 9D] High Card"; 
+        Deck deck = new Deck();
+        Score score;
+        List<Player> players = new ArrayList<>();        
+        players.add(new Player(new Hand(), "Winner"));
+        players.add(new Player(new Hand(), "Loser"));
+        Player winner = players.get(0);
+        Player loser = players.get(1);
+        winner.putCardsToHand(deck.drawCards(0, 8, 12, 20, 28));
+        loser.putCardsToHand(deck.drawCards(13, 3, 20, 35, 29));
+        score = new Score(players);
+        actualWinner = score.toString();
         assertEquals(WINNER, actualWinner);
     }
 }

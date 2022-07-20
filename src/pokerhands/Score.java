@@ -1,31 +1,52 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Score {
     public static final int PAIRED = 2;
-    public static final int TWO_PAIRED = 4;
+    public static final int TWO_AND_TWO = 4;
     public static final int THREE_PAIRED = 3;
     public static final int FULL_PAIRED = 5;
     public static final int FOUR_PAIRED = 6;
+    private Player winner;
+    private Ranking ranking;
     private int highest = 0;
-    private Ranking ranking = Ranking.HIGH_CARD;
+    private int[] ranksFrequencies;
+    private int[] suitsFrequencies;
     private List<Card> cards;
-    private int[] ranksFrequencies = new int[Rank.values().length];
-    private int[] suitsFrequencies = new int[Suit.values().length];
+    private List<Ranking> rankings = new ArrayList<>();
+    private List<Integer> highCards = new ArrayList<>();
 
-    Score(Hand hand) {
+    Score(List<Player> players) {
+        for (Player player : players) {
+
+            scoreHand(player.getHand());
+            rankings.add(ranking);
+            highCards.add(highest);
+        }
+        scoreHands(players);
+    }
+
+    Score(Player player) {
+        this.winner = player;
+        scoreHand(player.getHand());
+    }
+
+    private void scoreHand(Hand hand) {
         this.cards = hand.getCards();
 
         if (cards.size() != 5) {
             throw new IllegalArgumentException("Hand incorrect size");
         }
-        
+
         makeFrequencyTables();
         findHighestCard();
         rankHand();
     }
 
     private void findHighestCard() {
+        this.highest = 0;
         for (Card card : cards) {
             if (card.getRankPoints() >= highest) {
                 highest = card.getRankPoints();
@@ -34,6 +55,8 @@ public class Score {
     }
 
     private void makeFrequencyTables() {
+        ranksFrequencies = new int[Rank.values().length];
+        suitsFrequencies = new int[Suit.values().length];
         for (Card card : cards) {
             ranksFrequencies[card.getRankValue()]++;
             suitsFrequencies[card.getSuitValue()]++;
@@ -53,8 +76,8 @@ public class Score {
     }
 
     private void rankHand() {
+        this.ranking = Ranking.HIGH_CARD;
         int[] sortedHand = new int[cards.size()];
-        ranking = Ranking.HIGH_CARD;
         cards.forEach(card -> sortedHand[cards.indexOf(card)] = card.getRankValue());
         Arrays.sort(sortedHand);
 
@@ -75,7 +98,7 @@ public class Score {
                 if (ranking.compareTo(Ranking.ONE_PAIR) < 0)
                     ranking = Ranking.ONE_PAIR;
                 break;
-            case TWO_PAIRED:
+            case TWO_AND_TWO:
                 if (ranking.compareTo(Ranking.TWO_PAIR) < 0)
                     ranking = Ranking.TWO_PAIR;
                 break;
@@ -120,11 +143,38 @@ public class Score {
         return false;
     }
 
+    int player;
+    private void scoreHands(List<Player> players) {
+        List<Integer> rankingsValues = new ArrayList<>();
+        rankings.forEach(ranking -> rankingsValues.add(ranking.getValue()) );
+        
+        int maxScore = Collections.max(rankingsValues);
+        int minScore = Collections.min(rankingsValues);
+        highest = Collections.max(highCards);
+        
+        if (minScore == maxScore) {
+            player = highCards.indexOf(highest);   
+        } else {
+            player = rankingsValues.indexOf(maxScore); 
+        }
+        winner = players.get(player);
+        ranking = rankings.get(player);
+    }
+
     public Ranking getRanking() {
         return ranking;
     }
 
     public int getHighest() {
         return highest;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    @Override
+    public String toString() {
+        return winner.toString() + " " + ranking.toString();
     }
 }
