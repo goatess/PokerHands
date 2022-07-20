@@ -1,20 +1,19 @@
-
-
 public enum Suit {
-    C("CLUBS",0), D("DIAMONDS",1), H("HEARTS",2), S("SPADES",3);
+    C("CLUBS", 0), D("DIAMONDS", 1), H("HEARTS", 2), S("SPADES", 3);
 
-    private String suitName;
-    private int code;
+    private String name;
+    private int value;
 
-    private Suit(String name, int code) {
-        this.suitName = name;
-        this.code = code;
+    private Suit(String name, int value) {
+        this.name = name;
+        this.value = value;
     }
 
-    public String getSuitName() {
-        return suitName;
+    public String getName() {
+        return name;
     }
-    public int getCode() {
-        return code;
+
+    public int getValue() {
+        return value;
     }
 }

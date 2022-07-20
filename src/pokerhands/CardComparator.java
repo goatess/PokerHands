@@ -6,6 +6,6 @@ public class CardComparator implements Comparator<Card> {
   }
 
   public int compareSuit(Card c1, Card c2) {
-    return c2.getSuit().getCode() - c1.getSuit().getCode();
+    return c2.getSuit().getValue() - c1.getSuit().getValue();
   }
 };

@@ -1,8 +1,6 @@
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Deck {
@@ -11,7 +9,7 @@ public class Deck {
     private List<Card> cards;
     private int cardsNumber;
 
-    public Deck() {
+    Deck() {
         for (Rank rank : Rank.values()) {
             for (Suit suit : Suit.values()) {
                 FULL_CARDS.add(new Card(rank, suit));
@@ -21,7 +19,7 @@ public class Deck {
         cardsNumber = cards.size();
     }
 
-    public Deck(List<Card> cards) {
+    Deck(List<Card> cards) {
         this.cards = cards;
         this.cards = FULL_CARDS;
         cardsNumber = cards.size();
@@ -35,23 +33,25 @@ public class Deck {
         this.cards = FULL_CARDS;
     }
 
-    public List<Card> removeCards(int[] hitted) {
+    public List<Card> drawCards() {
         List<Card> drawn = new ArrayList<>();
-        Arrays.stream(hitted).forEach(card -> drawn.add(removeCard(card)));
+        for (int c = 0; c < 5; c++) {
+           drawn.add(drawCard());    
+        }
         return drawn;
     }
 
-    public Card removeCard(int index) {
-        if (cards.size() - 1 < index) {
+    private Card drawCard() {
+        if (cards.size() - 1 < 0) {
             throw new IndexOutOfBoundsException();
         }
         if (cards.size() < 1) {
             throw new IllegalStateException("Deck is empty");
-        }
-        return cards.remove(index);
+        } 
+        return cards.remove(0);
     }
 
-    public List<Card> getFirstCards(int c1, int c2, int c3, int c4, int c5) {
+    public List<Card> getCards(int c1, int c2, int c3, int c4, int c5) {
         List<Card> cardsTest = new ArrayList<>();
         cardsTest.add(cards.get(c1));
         cardsTest.add(cards.get(c2));
@@ -61,19 +61,8 @@ public class Deck {
         return cardsTest;
     }
 
-    public void sortCards() {
-        final Comparator<Card> cardComparator = new CardComparator();
-        for (int i = 0; i < cards.size() - 1; i++) {
-            for (int k = i + 1; k > 0; k--) {
-                final Card card1 = getCards().get(k);
-                final Card card2 = getCards().get(k - 1);
-                if (cardComparator.compare(card1, card2) < 0) {
-                    cards.set(k, card2);
-                    cards.set(k - 1, card1);
-                } else
-                    break;
-            }
-        }
+    public Card getCard(int card) {
+        return cards.get(card);
     }
 
     public int getDECK_LIMIT() {
@@ -92,6 +81,7 @@ public class Deck {
         return cardsNumber;
     }
 
+    @Override
     public String toString() {
         return cards.toString();
     }

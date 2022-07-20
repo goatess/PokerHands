@@ -1,4 +1,3 @@
-
 public class Card {
     Rank rank;
     Suit suit;
@@ -11,17 +10,32 @@ public class Card {
     public Rank getRank() {
         return rank;
     }
-    public int getRankValue(){
-        return rank.getValue();
-    }
 
     public Suit getSuit() {
         return suit;
     }
-    public int getSuitValue(){
-        return suit.getCode();
+
+    public char getRankSymbol() {
+        return rank.getSymbol();
     }
 
+    public int getRankPoints() {
+        return rank.getPoints();
+    }
+
+    public int getRankValue() {
+        return rank.getValue();
+    }
+
+    public int getSuitValue() {
+        return suit.getValue();
+    }
+
+    public String getSuitName() {
+        return suit.getName();
+    }
+
+    @Override
     public String toString() {
         return rank.toString() + suit.toString();
     }

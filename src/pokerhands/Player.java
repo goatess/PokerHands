@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Player {
     private Hand hand;
     private String name;
@@ -18,6 +20,14 @@ public class Player {
     Player(Hand hand, String name) {
         this.hand = hand;
         this.name = name;
+    }
+
+    public List<Card> getCards() {
+        return hand.getCards();
+    }
+
+    public Card getCard(int card) {
+        return hand.getCards().get(card);
     }
 
     public Hand getHand() {
