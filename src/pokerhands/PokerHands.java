@@ -31,7 +31,7 @@ public class PokerHands {
         rounds = 0;
         do {
             rounds++;
-            deck.shuffleDeck();
+            deck.shuffleCards();
             dealHands();
             rankHands();
             cleanBoard();
@@ -66,8 +66,8 @@ public class PokerHands {
 
         for (Player player : players) {
             score = new Score(player.getHand());
-            scores.add(score.getScore().getScore());
-            highCards.add(score.getHighCard());
+            scores.add(score.getRanking().getScore());
+            highCards.add(score.getHighest());
         }
         int maxScore = Collections.max(scores);
         int minScore = Collections.min(scores);
@@ -80,41 +80,12 @@ public class PokerHands {
         winnerHand = winner.getHand();
     }
 
-    public Player getPlayer(int player) {
-        return players.get(player);
-    }
-
     public List<Player> getPlayers() {
         return players;
     }
 
-    public int getPlayersNum() {
-        return playersNum;
-    }
-
-    public int getRounds() {
-        return rounds;
-    }
-
-    public int getHighCard() {
-        return highCard;
-    }
-
-    public Score getHandScore() {
-        return score;
-    }
-
-    public Deck getDeck() {
-        return deck;
-    }
-
     public Player getWinner() {
         return winner;
-    }
-
-    @Override
-    public String toString() {
-        return winner.toString();
     }
 
     public Hand getWinnerHand() {

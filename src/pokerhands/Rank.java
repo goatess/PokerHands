@@ -34,7 +34,7 @@ public enum Rank {
     public int getValue() {
         return value;
     }
-
+  
     @Override
     public String toString() {
         return String.valueOf(getSymbol());

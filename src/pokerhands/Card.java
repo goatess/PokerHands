@@ -7,18 +7,6 @@ public class Card {
         this.suit = suit;
     }
 
-    public Rank getRank() {
-        return rank;
-    }
-
-    public Suit getSuit() {
-        return suit;
-    }
-
-    public char getRankSymbol() {
-        return rank.getSymbol();
-    }
-
     public int getRankPoints() {
         return rank.getPoints();
     }
@@ -29,10 +17,6 @@ public class Card {
 
     public int getSuitValue() {
         return suit.getValue();
-    }
-
-    public String getSuitName() {
-        return suit.getName();
     }
 
     @Override

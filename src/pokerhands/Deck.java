@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Deck {
     private final List<Card> FULL_CARDS = new ArrayList<Card>();
-    private final int DECK_LIMIT = 52;
+    private final int CARDS_LIMIT = 52;
     private List<Card> cards;
     private int cardsNumber;
 
@@ -19,13 +19,7 @@ public class Deck {
         cardsNumber = cards.size();
     }
 
-    Deck(List<Card> cards) {
-        this.cards = cards;
-        this.cards = FULL_CARDS;
-        cardsNumber = cards.size();
-    }
-
-    public void shuffleDeck() {
+    public void shuffleCards() {
         Collections.shuffle(cards);
     }
 
@@ -63,14 +57,6 @@ public class Deck {
 
     public Card getCard(int card) {
         return cards.get(card);
-    }
-
-    public int getDECK_LIMIT() {
-        return DECK_LIMIT;
-    }
-
-    public List<Card> getFullBundle() {
-        return FULL_CARDS;
     }
 
     public List<Card> getCards() {
