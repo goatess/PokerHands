@@ -10,19 +10,18 @@ public class Score {
     public static final int FULL_PAIRED = 5;
     public static final int FOUR_PAIRED = 6;
     private Player winner;
-    private Ranking winnerRanking;
-    private int highest = 0;
+    private Ranking ranking;
     private int[] ranksFrequencies;
     private int[] suitsFrequencies;
     private List<Card> cards;
     private List<Ranking> rankings = new ArrayList<>();
+    private List<Integer> rankingsValues = new ArrayList<>();
     private List<Integer> highCards = new ArrayList<>();
+    private List<Integer> highPairs = new ArrayList<>();
 
     Score(List<Player> players) { // constructor for multiple hand scoring
         for (Player player : players) {
             scoreHand(player);
-            rankings.add(winnerRanking);
-            highCards.add(highest);
         }
         makeRankings(players);
     }
@@ -37,88 +36,90 @@ public class Score {
         if (cards.size() != 5) {
             throw new IllegalArgumentException("Hand incorrect size");
         }
-        makeFrequencyTables();
+        makeFrequencyTables(player);
         findHighestCard();
         rankHand(player);
     }
 
-    private void makeRankings(List<Player> players) {
-        int won = selectWinner(players);
-        giveRankingsToPlayers(players, won);
-    }
-
     private void findHighestCard() {
-        this.highest = 0;
+        int highest = 0;
         for (Card card : cards) {
             if (card.getRankPoints() >= highest) {
                 highest = card.getRankPoints();
             }
         }
+        highCards.add(highest);
     }
 
-    private void makeFrequencyTables() {
+    private void makeFrequencyTables(Player player) {
         ranksFrequencies = new int[Rank.values().length];
         suitsFrequencies = new int[Suit.values().length];
         for (Card card : cards) {
             ranksFrequencies[card.getRankValue()]++;
             suitsFrequencies[card.getSuitValue()]++;
         }
+
     }
 
     private int countPairs() {
+        int pairedValue = 0;
         int pairs = 0;
-        for (int rankFreq : ranksFrequencies) {
-            if (rankFreq == 4) {
+        for (int f = 0; f < ranksFrequencies.length; f++) {
+            if (ranksFrequencies[f] == 4) {
                 pairs = FOUR_PAIRED;
-            } else if (rankFreq > 1) {
-                pairs += rankFreq;
+                pairedValue = f;
+            } else if (ranksFrequencies[f] > 1) {
+                pairs += ranksFrequencies[f];
+                pairedValue = f;
             }
         }
+        highPairs.add(pairedValue);
         return pairs;
     }
 
     private void rankHand(Player player) {
-        this.winnerRanking = Ranking.HIGH_CARD;
+        this.ranking = Ranking.HIGH_CARD;
         int[] sortedHand = new int[cards.size()];
         cards.forEach(card -> sortedHand[cards.indexOf(card)] = card.getRankValue());
         Arrays.sort(sortedHand);
 
         if (isStraight(sortedHand)) {
             if (isFlush()) {
-                winnerRanking = isRoyal(sortedHand) ? Ranking.ROYAL_FLUSH : Ranking.STRAIGHT_FLUSH;
+                ranking = isRoyal(sortedHand) ? Ranking.ROYAL_FLUSH : Ranking.STRAIGHT_FLUSH;
             } else {
-                winnerRanking = isRoyal(sortedHand) ? Ranking.ROYAL_STRAIGHT : Ranking.STRAIGHT;
+                ranking = isRoyal(sortedHand) ? Ranking.ROYAL_STRAIGHT : Ranking.STRAIGHT;
             }
         } else {
             if (isFlush())
-                winnerRanking = Ranking.FLUSH;
+                ranking = Ranking.FLUSH;
         }
 
         int pairsNumber = countPairs();
         switch (pairsNumber) {
             case PAIRED:
-                if (winnerRanking.compareTo(Ranking.ONE_PAIR) < 0)
-                    winnerRanking = Ranking.ONE_PAIR;
+                if (ranking.compareTo(Ranking.ONE_PAIR) < 0)
+                    ranking = Ranking.ONE_PAIR;
                 break;
             case TWO_AND_TWO:
-                if (winnerRanking.compareTo(Ranking.TWO_PAIR) < 0)
-                    winnerRanking = Ranking.TWO_PAIR;
+                if (ranking.compareTo(Ranking.TWO_PAIR) < 0)
+                    ranking = Ranking.TWO_PAIR;
                 break;
             case THREE_PAIRED:
-                if (winnerRanking.compareTo(Ranking.THREE_OF_A_KIND) < 0)
-                    winnerRanking = Ranking.THREE_OF_A_KIND;
+                if (ranking.compareTo(Ranking.THREE_OF_A_KIND) < 0)
+                    ranking = Ranking.THREE_OF_A_KIND;
                 break;
             case FULL_PAIRED:
-                if (winnerRanking.compareTo(Ranking.FULL_HOUSE) < 0)
-                    winnerRanking = Ranking.FULL_HOUSE;
+                if (ranking.compareTo(Ranking.FULL_HOUSE) < 0)
+                    ranking = Ranking.FULL_HOUSE;
                 break;
             case FOUR_PAIRED:
-                if (winnerRanking.compareTo(Ranking.FOUR_OF_A_KIND) < 0)
-                    winnerRanking = Ranking.FOUR_OF_A_KIND;
+                if (ranking.compareTo(Ranking.FOUR_OF_A_KIND) < 0)
+                    ranking = Ranking.FOUR_OF_A_KIND;
                 break;
             default:
         }
-        player.setRanking(winnerRanking);
+        player.setRanking(ranking);
+        rankings.add(ranking);
     }
 
     private boolean isFlush() {
@@ -146,58 +147,51 @@ public class Score {
         return false;
     }
 
-    private void giveRankingsToPlayers(List<Player> players, int won) {
-        boolean isTie;
-        if (Collections.frequency(highCards, highest) > 1) {
-            isTie = true;
-        } else
-            isTie = false;
+    private void makeRankings(List<Player> players) {
+        int won = -1;
+        rankings.forEach(ranking -> rankingsValues.add(ranking.getValue()));
+        players.forEach(player -> player.setWinner(false, false));
+        int maxRankScored = Collections.max(rankingsValues);
+        int highest = Collections.max(highCards);
+        int highestPair = Collections.max(highPairs);
 
-        for (Player player : players) {
-            if (players.indexOf(player) == won) {
-                player.setWinner(true, isTie);
-            } else {
-                player.setWinner(false, isTie);
+        if (Collections.frequency(rankingsValues, maxRankScored) == 1) {
+            won = rankingsValues.indexOf(maxRankScored);
+            players.get(won).setWinner(true, false);
+
+        } else if (Collections.frequency(highPairs, highestPair) == 1) {
+            won = highPairs.indexOf(highestPair);
+            players.get(won).setWinner(true, false);
+
+        } else if (Collections.frequency(highCards, highest) == 1) {
+            won = highCards.indexOf(highest);
+            players.get(won).setWinner(true, false);
+
+        } else {
+            for (Player player : players) {
+                if (player.getHandRanking().getValue() == maxRankScored) {
+                    player.setWinner(true, true);
+                }
             }
         }
-    }
-
-    private int selectWinner(List<Player> players) {
-        int won;
-        List<Integer> rankingsValues = new ArrayList<>();
-        rankings.forEach(ranking -> rankingsValues.add(ranking.getValue()));
-        int maxRankScored = Collections.max(rankingsValues);
-        boolean isTie = (Collections.frequency(rankingsValues, maxRankScored) > 1);
-
-        if (isTie) {
-            highest = Collections.max(highCards);
-            won = highCards.indexOf(highest);
-        } else {
-            won = rankingsValues.indexOf(maxRankScored);
-        }
         winner = players.get(won);
-        winnerRanking = rankings.get(won);
-        return won;
-    }
-
-    public int getHighest() {
-        return highest;
+        ranking = rankings.get(won);
     }
 
     public Player getWinner() {
         return winner;
     }
 
-    public Ranking getWinnerRanking() {
-        return winnerRanking;
+    public Ranking getRanking() {
+        return Collections.max(rankings);
     }
 
-    public List<Ranking> getRankings() {
-        return rankings;
+    public int getHighest() {
+        return Collections.max(highCards);
     }
 
     @Override
     public String toString() {
-        return winner.toString() + winnerRanking.toString();
+        return winner + ranking.toString();
     }
 }
