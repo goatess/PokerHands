@@ -7,6 +7,7 @@ public class Player {
     private boolean isWinner;
     private boolean isTie;
 
+
     Player(Hand hand) {
         this.hand = hand;
     }
@@ -61,5 +62,4 @@ public class Player {
     public boolean isTie() {
         return isTie;
     }
-
 }

@@ -21,7 +21,6 @@ public enum Ranking {
 
     Ranking(int value) {
         this.value = value;
-
     }
 
     public String getName() {
