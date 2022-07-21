@@ -39,7 +39,7 @@ public class Deck {
 
     public List<Card> drawCards() {
         List<Card> drawn = new ArrayList<>();
-        for (int c = 0; c < 5; c++) {
+        for (int card = 0; card < 5; card++) {
             drawn.add(drawCard());
         }
         return drawn;

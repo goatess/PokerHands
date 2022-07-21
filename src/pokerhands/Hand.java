@@ -23,6 +23,16 @@ public class Hand {
         }
     }
 
+    public Card removeCard(int cardPosition){
+        if (cards.size() - 1 < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (cards.size() < 1) {
+            throw new IllegalStateException("Hand is empty");
+        }
+        return cards.remove(cardPosition);
+    }
+  
     public void addCards(List<Card> cards) {
         this.cards.addAll(cards);
     }
@@ -42,6 +52,10 @@ public class Hand {
     public int getHandNumber() {
         return cardsNumber;
     }
+    public int getCardsMissing() {
+        return CARDS_LIMIT - cards.size();
+    }
+    
 
     String cardsInHand;
     @Override

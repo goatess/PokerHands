@@ -7,7 +7,6 @@ public class Player {
     private boolean isWinner;
     private boolean isTie;
 
-
     Player(Hand hand) {
         this.hand = hand;
     }
@@ -27,6 +26,15 @@ public class Player {
 
     public void putCardsToHand(List<Card> cards) {
         hand.addCards(cards);
+    }
+
+    public void discard() {
+        int[]discarded = new int[]{-1,-1,-1,-1,-1};
+        for (int card : discarded) {
+            if (card != -1) {
+                hand.removeCard(card);
+            }
+        }
     }
 
     public Hand getHand() {

@@ -154,9 +154,9 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.HIGH_CARD, handScore.getRanking());
+        assertEquals(Ranking.HIGH_CARD, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
-        assertEquals(HIGH_CARD_POINTS, handScore.getHighest());
+        assertEquals(HIGH_CARD_POINTS, handScore.getHighestCard());
     }
 
     @Test
@@ -170,7 +170,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.ONE_PAIR, handScore.getRanking());
+        assertEquals(Ranking.ONE_PAIR, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -185,7 +185,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.TWO_PAIR, handScore.getRanking());
+        assertEquals(Ranking.TWO_PAIR, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -200,7 +200,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.THREE_OF_A_KIND, handScore.getRanking());
+        assertEquals(Ranking.THREE_OF_A_KIND, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -215,7 +215,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.STRAIGHT, handScore.getRanking());
+        assertEquals(Ranking.STRAIGHT, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -230,7 +230,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.ROYAL_STRAIGHT, handScore.getRanking());
+        assertEquals(Ranking.ROYAL_STRAIGHT, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -245,7 +245,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.FLUSH, handScore.getRanking());
+        assertEquals(Ranking.FLUSH, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -260,7 +260,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.FULL_HOUSE, handScore.getRanking());
+        assertEquals(Ranking.FULL_HOUSE, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -275,7 +275,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.FOUR_OF_A_KIND, handScore.getRanking());
+        assertEquals(Ranking.FOUR_OF_A_KIND, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -290,7 +290,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.ROYAL_FLUSH, handScore.getRanking());
+        assertEquals(Ranking.ROYAL_FLUSH, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -305,7 +305,7 @@ public class PokerHandsTest {
         player.putCardsToHand(cards);
         handScore = new Score(player);
 
-        assertEquals(Ranking.STRAIGHT_FLUSH, handScore.getRanking());
+        assertEquals(Ranking.STRAIGHT_FLUSH, handScore.getMaxRanking());
         assertEquals(HAND, handScore.toString());
     }
 
@@ -589,7 +589,7 @@ public class PokerHandsTest {
         assertEquals(Ranking.STRAIGHT_FLUSH, loser.getHandRanking());
     }
     @Test
-    public void get_a_TIE_ranking() {
+    public void get_winner_when_hand_rankings_and_high_cards_are_equal() {
         final String RANKING = "\nWinner: 3C 3D 3H 5D 6C Three of a Kind (WINNER)\nLoser: 2C 2D 2H 5S 6S Three of a Kind";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
@@ -604,7 +604,36 @@ public class PokerHandsTest {
         assertEquals(RANKING, actualRanking);
         assertTrue(winner.isWinner());
         assertTrue(!loser.isWinner());
+        assertTrue(!winner.isTie());
+        assertTrue(!loser.isTie());
         assertEquals(Ranking.THREE_OF_A_KIND, winner.getHandRanking());
         assertEquals(Ranking.THREE_OF_A_KIND, loser.getHandRanking());
+        assertEquals(6, dealer.getScore().getHighestCard());
+    }
+    @Test
+    public void get_a_TIE_ranking() {
+        final String RANKING = "\nWinner: 2D 2S 3H 5D 6C One Pair (TIE)\nLoser: 2C 2H 3D 5S 6S One Pair (TIE)";
+        String actualRanking = "";
+        Dealer dealer = new Dealer("Winner", "Loser");
+        Player winner = dealer.getPlayers().get(0);
+        Player loser = dealer.getPlayers().get(1);
+        String actualHands = "";
+
+        winner.putCardsToHand(dealer.getDeck().drawCards(1, 3, 6, 13, 16));
+        loser.putCardsToHand(dealer.getDeck().drawCards(0, 2, 5, 15, 19));
+
+        actualHands = winner.toString() + "\n" + loser.toString() + "\n";
+                
+        dealer.setScore(new Score(dealer.getPlayers()));
+        actualRanking = dealer.toString();
+
+        assertEquals("Winner: 2D 2S 3H 5D 6C \nLoser: 2C 2H 3D 5S 6S \n", actualHands);
+        assertEquals(RANKING, actualRanking);
+        assertTrue(winner.isWinner());
+        assertTrue(loser.isWinner());
+        assertTrue(winner.isTie());
+        assertTrue(loser.isTie());
+        assertEquals(Ranking.ONE_PAIR, winner.getHandRanking());
+        assertEquals(Ranking.ONE_PAIR, loser.getHandRanking());
     }
 }

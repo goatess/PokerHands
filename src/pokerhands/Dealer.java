@@ -3,17 +3,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Dealer {
-    private int playersNumber = 2;
-    private int rounds;
+    private int playersNumber = 4;
+    private int round;
+    private int roundsNumber;
     private Deck deck;
     private Score score;
     private List<Player> players;
 
-    Dealer(int playersNumber, int rounds) { // automated constructor
-
-        this.rounds = rounds;
+    Dealer(int playersNumber, int roundsNumber) { // automated constructor
+        deck = new Deck();
+        setRounds(roundsNumber);
         setPlayersNumber(playersNumber);
-        players = new ArrayList<>();
+        createPlayers();
         setUpGame();
     }
 
@@ -25,41 +26,35 @@ public class Dealer {
 
     }
 
-    private void setPlayersNumber(int playersNumber) {
-        if (playersNumber > 1 && playersNumber < 15) {
-            this.playersNumber = playersNumber;
-        } else
-            throw new IllegalStateException("Incorrect player number (set a number between 2 and 14)");
-    }
-
     private void setUpGame() {
-        deck = new Deck();
-        createPlayers();
-        rounds = 0;
+        round = 0;
         do {
-            rounds++;
-            dealCards();
+            round++;
+            dealHands();
+            discardRound();
             score = new Score(players);
             this.toString();
             cleanBoard();
-        } while (rounds < 5);
-    }
-
-    private void dealCards() {
-        deck.shuffleCards();
-        players.forEach(player -> player.setHand(new Hand()));
-        players.forEach(player -> dealHand(player.getHand()));
+        } while (round < roundsNumber);
     }
 
     private void createPlayers() {
+        players = new ArrayList<>();
         for (int i = 0; i < playersNumber; i++) {
             players.add(new Player("player" + i));
         }
     }
 
-    private void dealHand(Hand hand) {
+    private void dealHands() {
+        deck.shuffleCards();
+        players.forEach(player -> player.setHand(new Hand()));
+        players.forEach(player -> dealCards(player.getHand()));
+
+    }
+
+    private void dealCards(Hand hand) {
         int oneMoreCard = 0;
-        int[] drawn = new int[hand.getCARDS_LIMIT()];
+        int[] drawn = new int[hand.getCardsMissing()];
         Arrays.stream(drawn).forEach(card -> drawn[card] = oneMoreCard);
         hand.addCards(deck.drawCards());
     }
@@ -67,6 +62,45 @@ public class Dealer {
     private void cleanBoard() {
         players.forEach(player -> player.getHand().discardHand());
         deck.collectCards();
+    }
+
+    private void discardRound() {
+        players.forEach(player -> player.discard());
+        players.forEach(player -> dealCards(player.getHand()));
+        players.forEach(player -> player.getHand().toString());
+    }
+
+    private void setRounds(int roundsNumber) {
+        if (roundsNumber > 0 && roundsNumber < 20) {
+            this.roundsNumber = roundsNumber;
+        } else
+            throw new IllegalStateException("Incorrect number of rounds (set a number between 1 and 20)");
+    }
+
+    private void setPlayersNumber(int playersNumber) {
+        if (playersNumber > 1 && playersNumber < 15) {
+            this.playersNumber = playersNumber;
+        } else
+            throw new IllegalStateException("Incorrect number of players (set a number between 2 and 14)");
+    }
+
+    @Override
+    public String toString() {
+        String playersRanks = "";
+        String playerRank = "";
+        for (Player player : players) {
+            playerRank = "\n" + player.toString() + player.getHandRanking().toString();
+            if (player.isWinner()) {
+                if (player.isTie()) {
+                    playerRank += " (TIE)";
+                } else
+                    playerRank += " (WINNER)";
+            }
+            playersRanks += playerRank;
+
+        }
+        System.out.println(playersRanks);
+        return playersRanks;
     }
 
     public List<Player> getPlayers() {
@@ -83,23 +117,5 @@ public class Dealer {
 
     public void setScore(Score score) {
         this.score = score;
-    }
-
-    @Override
-    public String toString() {
-        String playersRanks = "";
-        String playerRank = "";
-        for (Player player : players) {
-            playerRank = "\n" + player.toString() + player.getHandRanking().toString();
-            if (player.isWinner()) {
-                if(player.isTie()){
-                    playerRank += " (TIE)";
-                }else playerRank += " (WINNER)";
-            }
-            playersRanks += playerRank;
-            
-        }
-        System.out.println(playersRanks);
-        return playersRanks;
     }
 }
