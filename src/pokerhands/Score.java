@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Score {
-    public static final int PAIRED = 2;
-    public static final int TWO_AND_TWO = 4;
-    public static final int THREE_PAIRED = 3;
-    public static final int FULL_PAIRED = 5;
-    public static final int FOUR_PAIRED = 6;
+    private static final int PAIRED = 2;
+    private static final int TWO_AND_TWO = 4;
+    private static final int THREE_PAIRED = 3;
+    private static final int FULL_PAIRED = 5;
+    private static final int FOUR_PAIRED = 8;
     private int[] ranksFrequencies;
     private int[] suitsFrequencies;
     private Player rankedPlayer;
@@ -65,7 +65,7 @@ public class Score {
         for (int f = 0; f < ranksFrequencies.length; f++) {
             if (ranksFrequencies[f] == 4) {
                 pairedValue = f;
-                pairs = FOUR_PAIRED;
+                pairs = Ranking.FOUR_OF_A_KIND.getPairsScore();
             } else if (ranksFrequencies[f] > 1) {
                 pairedValue = f;
                 pairs += ranksFrequencies[f];
@@ -93,29 +93,24 @@ public class Score {
         }
         
         int pairsNumber = countPairs();
-        switch (pairsNumber) {
-            case PAIRED:
-                if (ranking.compareTo(Ranking.ONE_PAIR) < 0)
+        
+        if (pairsNumber == PAIRED) {
+            if (ranking.compareTo(Ranking.ONE_PAIR) < 0)
                     ranking = Ranking.ONE_PAIR;
-                break;
-            case TWO_AND_TWO:
-                if (ranking.compareTo(Ranking.TWO_PAIR) < 0)
+        } else if (pairsNumber == TWO_AND_TWO) {
+            if (ranking.compareTo(Ranking.TWO_PAIR) < 0)
                     ranking = Ranking.TWO_PAIR;
-                break;
-            case THREE_PAIRED:
-                if (ranking.compareTo(Ranking.THREE_OF_A_KIND) < 0)
+        } else if (pairsNumber == THREE_PAIRED) {
+            if (ranking.compareTo(Ranking.THREE_OF_A_KIND) < 0)
                     ranking = Ranking.THREE_OF_A_KIND;
-                break;
-            case FULL_PAIRED:
-                if (ranking.compareTo(Ranking.FULL_HOUSE) < 0)
+        } else if (pairsNumber == FULL_PAIRED) {
+            if (ranking.compareTo(Ranking.FULL_HOUSE) < 0)
                     ranking = Ranking.FULL_HOUSE;
-                break;
-            case FOUR_PAIRED:
-                if (ranking.compareTo(Ranking.FOUR_OF_A_KIND) < 0)
+        } else if (pairsNumber == FOUR_PAIRED) {
+            if (ranking.compareTo(Ranking.FOUR_OF_A_KIND) < 0)
                     ranking = Ranking.FOUR_OF_A_KIND;
-                break;
-            default:
         }
+       
         rankedPlayer.setRanking(ranking);
         rankings.add(ranking);
     }
@@ -153,7 +148,7 @@ public class Score {
         int highestCard = Collections.max(highCards);
         int highestPair = Collections.max(highPairs);
         boolean isTie = false;
-        int win = -1;
+        int win = 0;
 
         if (Collections.frequency(rankingsValues, highestRanking) == 1)
             win = rankingsValues.indexOf(highestRanking);

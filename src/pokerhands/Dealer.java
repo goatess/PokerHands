@@ -57,6 +57,7 @@ public class Dealer {
         int[] drawn = new int[hand.getCardsMissing()];
         Arrays.stream(drawn).forEach(card -> drawn[card] = oneMoreCard);
         hand.addCards(deck.drawCards());
+        players.forEach(player -> player.toString());
     }
 
     private void cleanBoard() {
@@ -67,7 +68,6 @@ public class Dealer {
     private void discardRound() {
         players.forEach(player -> player.discard());
         players.forEach(player -> dealCards(player.getHand()));
-        players.forEach(player -> player.getHand().toString());
     }
 
     private void setRounds(int roundsNumber) {
@@ -89,14 +89,14 @@ public class Dealer {
         String playersRanks = "";
         String playerRank = "";
         for (Player player : players) {
-            playerRank = "\n" + player.toString() + player.getHandRanking().toString();
+            playerRank = player.toString() + player.getHandRanking().toString();
             if (player.isWinner()) {
                 if (player.isTie()) {
                     playerRank += " (TIE)";
                 } else
                     playerRank += " (WINNER)";
             }
-            playersRanks += playerRank;
+            playersRanks += playerRank + "\n" ;
 
         }
         System.out.println(playersRanks);

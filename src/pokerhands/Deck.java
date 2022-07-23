@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    private final List<Card> FULL_CARDS = new ArrayList<Card>();
+    private final List<Card> CARDS_BUNDLE = new ArrayList<Card>();
     private final int CARDS_LIMIT = 52;
     private List<Card> cards;
     private int cardsNumber;
@@ -12,19 +12,11 @@ public class Deck {
     Deck() {
         for (Rank rank : Rank.values()) {
             for (Suit suit : Suit.values()) {
-                FULL_CARDS.add(new Card(rank, suit));
+                CARDS_BUNDLE.add(new Card(rank, suit));
             }
         }
-        this.cards = FULL_CARDS;
+        this.cards = CARDS_BUNDLE;
         cardsNumber = cards.size();
-    }
-
-    public void shuffleCards() {
-        Collections.shuffle(cards);
-    }
-
-    public void collectCards() {
-        this.cards = FULL_CARDS;
     }
 
     private Card drawCard() {
@@ -43,6 +35,14 @@ public class Deck {
             drawn.add(drawCard());
         }
         return drawn;
+    }
+
+    public void shuffleCards() {
+        Collections.shuffle(cards);
+    }
+
+    public void collectCards() {
+        this.cards = CARDS_BUNDLE;
     }
 
     public List<Card> drawCards(int c1, int c2, int c3, int c4, int c5) {
@@ -65,6 +65,9 @@ public class Deck {
 
     public int getCardsNumber() {
         return cardsNumber;
+    }
+    public int getCARDS_LIMIT() {
+        return CARDS_LIMIT;
     }
 
     @Override

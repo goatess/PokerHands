@@ -5,6 +5,7 @@ public class Hand {
     private final int CARDS_LIMIT = 5;
     private List<Card> cards = new ArrayList<>();
     private int cardsNumber;
+    private String cardsInHand;
 
     Hand(List<Card> cards) {
         for (int i = 0; i < CARDS_LIMIT; i++) {
@@ -56,8 +57,6 @@ public class Hand {
         return CARDS_LIMIT - cards.size();
     }
     
-
-    String cardsInHand;
     @Override
     public String toString() {
         cardsInHand = "";

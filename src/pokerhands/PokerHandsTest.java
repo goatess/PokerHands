@@ -13,10 +13,12 @@ public class PokerHandsTest {
     public void there_are_52_cards_in_deck() {
         Deck testDeck = new Deck();
         final int CARDS_IN_DECK = testDeck.getCardsNumber();
+        final int CARDS_LIMIT = testDeck.getCARDS_LIMIT();
 
         int actualSize = testDeck.getCards().size();
 
         assertEquals(CARDS_IN_DECK, actualSize);
+        assertEquals(CARDS_LIMIT, actualSize);
     }
 
     @Test
@@ -331,7 +333,7 @@ public class PokerHandsTest {
 
     @Test
     public void flush_wins_over_high_card() {
-        final String RANKING = "\nWinner: 2C 4C 5C 7C 9C Flush (WINNER)\nLoser: AS JC KH TS 9D High Card";
+        final String RANKING = "Winner: 2C 4C 5C 7C 9C Flush (WINNER)\nLoser: AS JC KH TS 9D High Card\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -351,7 +353,7 @@ public class PokerHandsTest {
 
     @Test
     public void royal_flush_wins_over_flush() {
-        final String RANKING = "\nWinner: AS KS QS JS TS Royal Flush (WINNER)\nLoser: 2C 4C 5C 7C 9C Flush";
+        final String RANKING = "Winner: AS KS QS JS TS Royal Flush (WINNER)\nLoser: 2C 4C 5C 7C 9C Flush\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -371,7 +373,7 @@ public class PokerHandsTest {
 
     @Test
     public void one_pair_wins_over_high_card() {
-        final String RANKING = "\nWinner: 2C 2D 4H 5S 6S One Pair (WINNER)\nLoser: 2C 4S 7H TD AS High Card";
+        final String RANKING = "Winner: 2C 2D 4H 5S 6S One Pair (WINNER)\nLoser: 2C 4S 7H TD AS High Card\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -391,7 +393,7 @@ public class PokerHandsTest {
 
     @Test
     public void two_pair_wins_over_one_pair() {
-        final String RANKING = "\nWinner: 2C 2D 3H 3S 6S Two Pairs (WINNER)\nLoser: AS AH 4H 5S 6S One Pair";
+        final String RANKING = "Winner: 2C 2D 3H 3S 6S Two Pairs (WINNER)\nLoser: AS AH 4H 5S 6S One Pair\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -411,7 +413,7 @@ public class PokerHandsTest {
 
     @Test
     public void three_of_a_kind_wins_over_two_pair() {
-        final String RANKING = "\nWinner: 2C 2D 2H 5S 6S Three of a Kind (WINNER)\nLoser: AS AH KD KC 6S Two Pairs";
+        final String RANKING = "Winner: 2C 2D 2H 5S 6S Three of a Kind (WINNER)\nLoser: AS AH KD KC 6S Two Pairs\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -431,7 +433,7 @@ public class PokerHandsTest {
 
     @Test
     public void straight_wins_over_three_of_a_kind() {
-        final String RANKING = "\nWinner: 2C 3D 4H 5S 6S Straight (WINNER)\nLoser: AS AH AD KC 6S Three of a Kind";
+        final String RANKING = "Winner: 2C 3D 4H 5S 6S Straight (WINNER)\nLoser: AS AH AD KC 6S Three of a Kind\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -451,7 +453,7 @@ public class PokerHandsTest {
 
     @Test
     public void flush_wins_over_straight() {
-        final String RANKING = "\nWinner: 2C 4C 5C 7C 9C Flush (WINNER)\nLoser: TC JC QD KH 9S Straight";
+        final String RANKING = "Winner: 2C 4C 5C 7C 9C Flush (WINNER)\nLoser: TC JC QD KH 9S Straight\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -471,7 +473,7 @@ public class PokerHandsTest {
 
     @Test
     public void four_of_a_kind_wins_over_full() {
-        final String RANKING = "\nWinner: AC 8D 8S 8H 8C Four of a Kind (WINNER)\nLoser: AS AH AD KS KH Full House";
+        final String RANKING = "Winner: AC 8D 8S 8H 8C Four of a Kind (WINNER)\nLoser: AS AH AD KS KH Full House\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -491,7 +493,7 @@ public class PokerHandsTest {
 
     @Test
     public void straight_flush_wins_over_four_of_a_kind() {
-        final String RANKING = "\nWinner: 2C 3C 4C 5C 6C Straight Flush (WINNER)\nLoser: AC 8D 8S 8H 8C Four of a Kind";
+        final String RANKING = "Winner: 2C 3C 4C 5C 6C Straight Flush (WINNER)\nLoser: AC 8D 8S 8H 8C Four of a Kind\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -511,7 +513,7 @@ public class PokerHandsTest {
 
     @Test
     public void royal_straight_wins_over_straight() {
-        final String RANKING = "\nWinner: TC JC QD KH AS Royal Straight (WINNER)\nLoser: TC JC QD KH 9S Straight";
+        final String RANKING = "Winner: TC JC QD KH AS Royal Straight (WINNER)\nLoser: TC JC QD KH 9S Straight\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -531,7 +533,7 @@ public class PokerHandsTest {
 
     @Test
     public void royal_flush_wins_over_four_of_a_kind() {
-        final String RANKING = "\nWinner: AS KS QS JS TS Royal Flush (WINNER)\nLoser: AC 8D 8S 8H 8C Four of a Kind";
+        final String RANKING = "Winner: AS KS QS JS TS Royal Flush (WINNER)\nLoser: AC 8D 8S 8H 8C Four of a Kind\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -551,7 +553,7 @@ public class PokerHandsTest {
 
     @Test
     public void flush_wins_over_royal_straight() {
-        final String RANKING = "\nWinner: 2C 4C 5C 7C 9C Flush (WINNER)\nLoser: TC JC QD KH AS Royal Straight";
+        final String RANKING = "Winner: 2C 4C 5C 7C 9C Flush (WINNER)\nLoser: TC JC QD KH AS Royal Straight\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -571,7 +573,7 @@ public class PokerHandsTest {
 
     @Test
     public void royal_flush_wins_over_straight_flush() {
-        final String RANKING = "\nWinner: AS KS QS JS TS Royal Flush (WINNER)\nLoser: 2C 3C 4C 5C 6C Straight Flush";
+        final String RANKING = "Winner: AS KS QS JS TS Royal Flush (WINNER)\nLoser: 2C 3C 4C 5C 6C Straight Flush\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -590,7 +592,7 @@ public class PokerHandsTest {
     }
     @Test
     public void get_winner_when_hand_rankings_and_high_cards_are_equal() {
-        final String RANKING = "\nWinner: 3C 3D 3H 5D 6C Three of a Kind (WINNER)\nLoser: 2C 2D 2H 5S 6S Three of a Kind";
+        final String RANKING = "Winner: 3C 3D 3H 5D 6C Three of a Kind (WINNER)\nLoser: 2C 2D 2H 5S 6S Three of a Kind\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
@@ -612,22 +614,18 @@ public class PokerHandsTest {
     }
     @Test
     public void get_a_TIE_ranking() {
-        final String RANKING = "\nWinner: 2D 2S 3H 5D 6C One Pair (TIE)\nLoser: 2C 2H 3D 5S 6S One Pair (TIE)";
+        final String RANKING = "Winner: 2D 2S 3H 5D 6C One Pair (TIE)\nLoser: 2C 2H 3D 5S 6S One Pair (TIE)\n";
         String actualRanking = "";
         Dealer dealer = new Dealer("Winner", "Loser");
         Player winner = dealer.getPlayers().get(0);
         Player loser = dealer.getPlayers().get(1);
-        String actualHands = "";
 
         winner.putCardsToHand(dealer.getDeck().drawCards(1, 3, 6, 13, 16));
-        loser.putCardsToHand(dealer.getDeck().drawCards(0, 2, 5, 15, 19));
-
-        actualHands = winner.toString() + "\n" + loser.toString() + "\n";
-                
+        loser.putCardsToHand(dealer.getDeck().drawCards(0, 2, 5, 15, 19));  
+        winner.toString();     
         dealer.setScore(new Score(dealer.getPlayers()));
         actualRanking = dealer.toString();
 
-        assertEquals("Winner: 2D 2S 3H 5D 6C \nLoser: 2C 2H 3D 5S 6S \n", actualHands);
         assertEquals(RANKING, actualRanking);
         assertTrue(winner.isWinner());
         assertTrue(loser.isWinner());

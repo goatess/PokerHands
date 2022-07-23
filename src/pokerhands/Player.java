@@ -47,7 +47,9 @@ public class Player {
 
     @Override
     public String toString() {
-        return name + ": " + hand.toString();
+        String playerString = name + ": " + hand.toString();
+        System.out.println(playerString);
+        return playerString;
     }
 
     public void setWinner(boolean isWinner, boolean isTie) {
